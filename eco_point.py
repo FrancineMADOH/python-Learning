@@ -36,8 +36,7 @@ def earn_ecopoint(points,available_point):
 def redeem_ecopoint(point,service):
     try:
         if int(point) < entry :
-           print("You are not yet eligible to redeem point yet")
-           message = "You are not yet eligible to redeem point yet"
+           message = "You are not yet eligible to redeem points"
            return message
         elif int(point)>=entry:
             for item in services:
