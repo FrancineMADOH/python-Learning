@@ -16,16 +16,19 @@ def get_ecopoint_value(price):
     points = round(price/100,None)
     return points
 
-def earn_ecopoint(points,available_points):
-    total = int(points + available_points)
+
+def earn_ecopoint(points,available_point):
+    total = int(points + available_point)
     if total < 1000:
         level = "Entry"
-    elif total > 1000:
+    elif total < 2000:
         level = "Bronze"
-    elif total > 2000:
+    elif total < 3000:
         level = "Gold"
-    else:
+    elif total > 3000:
         level = "Platinium"
+    else:
+        "Invalid data"
     
     return level, total
 
@@ -43,18 +46,18 @@ def redeem_ecopoint(point,service):
                name = item["service"]
 
                if service == code: 
-                   available_point = int(point) - base
-                   if available_point == 0:
+                   ecopoints_left = int(point) - base
+                   if ecopoints_left == 0:
                        level = "Entry"
-                       message = f"""You sucessfully redeem your ecopoint for {name} . You have {available_point} ecopoints  left. Your Eco-level: {level}"""
-                   elif available_point > 0:
-                        level = earn_ecopoint(0,available_point)
-                        message  = f"""You sucessfully redeem your ecopoint for {name} . You have {available_point} ecopoints  left. Your Eco-level: {level}"""
+                       message = f"""You sucessfully redeem your ecopoint for {name} . You have {ecopoints_left} ecopoints  left. Your Eco-level: {level}"""
+                   elif ecopoints_left > 0:
+                        level = earn_ecopoint(0,ecopoints_left)
+                        message  = f"""You sucessfully redeem your ecopoint for {name} . You have {ecopoints_left} ecopoints  left. Your Eco-level: {level}"""
                    else:
                     level = earn_ecopoint(0,int(point))
                     message = f"""Sorry you are not eligible to the service { name }. Points Needed:{ item['points'] }. Your points:{point}. Choose another service."""
             print(message)
-            return available_point , level
+            return ecopoints_left , level
     except:
         print("Error! Please enter valid data")
 
