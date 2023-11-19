@@ -12,6 +12,10 @@ services = [
 number_of_ecopoint = input("Enter the number of ecopoint: ")
 services_to_reedem =  input("Select a service. 1=Voice, 2=Data, 3=Electricity: ")
 
+def get_ecopoint_value(price):
+    points = round(price/100,None)
+    return points
+
 def earn_ecopoint(points,available_points):
     total = int(points + available_points)
     if total < 1000:
@@ -42,16 +46,15 @@ def redeem_ecopoint(point,service):
                    available_point = int(point) - base
                    if available_point == 0:
                        level = "Entry"
-                       message = f"""You sucessfully redeem your ecopoint for {name} . You have {available_point} ecopoints  left."""
-                       #print(f"""You sucessfully redeem your ecopoint for {name} . You have {available_point} ecopoints  left.""")                   
+                       message = f"""You sucessfully redeem your ecopoint for {name} . You have {available_point} ecopoints  left. Your Eco-level: {level}"""
                    elif available_point > 0:
-                        message  = f"""You sucessfully redeem your ecopoint for {name} . You have {available_point} ecopoints  left."""
-                       # print(f"""You sucessfully redeem your ecopoint for {name} . You have {available_point} ecopoints  left.""") 
+                        level = earn_ecopoint(0,available_point)
+                        message  = f"""You sucessfully redeem your ecopoint for {name} . You have {available_point} ecopoints  left. Your Eco-level: {level}"""
                    else:
-                    #print(f"""Sorry you are not eligible to this {name}. Points Needed:{item['points']}. Your points:{point}. Choose another service.""")
-                    message = f"""Sorry you are not eligible to this { name }. Points Needed:{ item['points'] }. Your points:{point}. Choose another service."""
-            print(available_point)
-            return available_point  
+                    level = earn_ecopoint(0,int(point))
+                    message = f"""Sorry you are not eligible to the service { name }. Points Needed:{ item['points'] }. Your points:{point}. Choose another service."""
+            print(message)
+            return available_point , level
     except:
         print("Error! Please enter valid data")
 
