@@ -55,9 +55,8 @@ def redeem_ecopoint(point,service):
                     level = earn_ecopoint(0,int(point))
                     message = f"""Sorry you are not eligible to the service { name }. Points Needed:{ item['points'] }. Your points:{point}. Choose another service."""
             print(message)
-            a = {"points":ecopoints_left , "level":level,"message":message}
-            print(a)
-            return {"points":ecopoints_left , "level":level,"message":message}
+    
+            return {"total_points":ecopoints_left , "level":level,"message":message}
     except:
         print("Error! Please enter valid data")
         raise ValueError("Error! Please enter valid data")
