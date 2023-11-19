@@ -9,15 +9,19 @@ trash_size_list = [
 packages = [
     {"name":"Pickup", "code": "1"},
     {"name":"Cleaning", "code": "2"},
-    {"name":"pickup & Cleaning", "code": "3"}
+    {"name":"Cleaning & Pickup", "code": "3"}
 ]
+
+bid_status = ("Approved", "Rejected")
 
 # inputs 
 trash_size_input = input("Select your trash size. 1=(bucket-10L), 2=(trash bag-27L), 3=(wheelbarrow-80L): ")
 trash_quantity  = input("Enter your trash quantity: ")
 trash_package = input("Choose package. 1=Pickup, 2=Cleanup, 3=Cleanup & Pickup: ")
+bid_amount = input("How much are you ready to pay for your service? : ")
 
-def get_trash_volume(code,quantity,package):
+
+def get_trash_price(code,quantity,package,bid):
     
     try:
         for element in trash_size_list:
@@ -25,6 +29,7 @@ def get_trash_volume(code,quantity,package):
             trash_size = element['size']
             if trash_code == code:
                 trash_volume = (int(trash_size)/1000) * int(quantity)
+
         for item in packages:
             package_choose = item['code']
             if package == package_choose:
@@ -33,9 +38,18 @@ def get_trash_volume(code,quantity,package):
                     trash_price =  price
                 else:
                     trash_price = 1.2 * price
-        print(trash_price)
-        return trash_price
+        
+        if int(bid) < price:
+            status = bid_status[1]
+            print(f"{ status } : Price too low. Minimum:{ price }, Your price: { bid }")
+        elif int(bid) > price:
+            status = bid_status[0]
+
+        print(trash_price,status)
+        return { "price":trash_price, "status": status, "bid_amount":bid }
     except:
         print("Error! Please enter valid data")
+        raise ValueError("Error! Please enter valid data")
 
-get_trash_volume(trash_size_input,trash_quantity,trash_package)
+get_trash_price(trash_size_input,trash_quantity,trash_package,bid_amount)
+

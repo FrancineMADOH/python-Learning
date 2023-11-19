@@ -1,6 +1,5 @@
 # constant 
 entry = 1000
-index = 0
 services = [
     {"service":"Voice", "code":"1", "points": 1000},
     {"service":"Data",  "code":"2","points": 1500},
@@ -30,7 +29,7 @@ def earn_ecopoint(points,available_point):
     else:
         "Invalid data"
     
-    return level, total
+    return level
 
 
 def redeem_ecopoint(point,service):
@@ -48,17 +47,20 @@ def redeem_ecopoint(point,service):
                    ecopoints_left = int(point) - base
                    if ecopoints_left == 0:
                        level = "Entry"
-                       message = f"""You sucessfully redeem your ecopoint for {name} . You have {ecopoints_left} ecopoints  left. Your Eco-level: {level}"""
+                       message = f"""You sucessfully redeem your ecopoint for {name} ."""
                    elif ecopoints_left > 0:
                         level = earn_ecopoint(0,ecopoints_left)
-                        message  = f"""You sucessfully redeem your ecopoint for {name} . You have {ecopoints_left} ecopoints  left. Your Eco-level: {level}"""
+                        message  = f"""You sucessfully redeem your ecopoint for {name} . You have {ecopoints_left} ecopoints  left."""
                    else:
                     level = earn_ecopoint(0,int(point))
                     message = f"""Sorry you are not eligible to the service { name }. Points Needed:{ item['points'] }. Your points:{point}. Choose another service."""
             print(message)
-            return ecopoints_left , level
+            a = {"points":ecopoints_left , "level":level,"message":message}
+            print(a)
+            return {"points":ecopoints_left , "level":level,"message":message}
     except:
         print("Error! Please enter valid data")
+        raise ValueError("Error! Please enter valid data")
 
     
 redeem_ecopoint(number_of_ecopoint,services_to_reedem)
