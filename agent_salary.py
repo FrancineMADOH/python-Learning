@@ -70,7 +70,7 @@ def get_agent_salary(agent,month):
     try:
         for booking in booking_list:
             get_month = booking['pickup_date'].split('-')[1] 
-            # TODO extrack the pickup month from this date
+        
             if booking['agent'] == int(agent) and get_month == month:
                 agent_monthly_pickup.append(booking)
 
@@ -82,10 +82,8 @@ def get_agent_salary(agent,month):
             else: 
                 commercials.append(item)
 
-        # step 5 
         result =  remainder_utility(len(residents))
         
-        # # # TODO step 6
         for key,value in bonuses.items():
 
             if key == 'bonus_of_twenty':
