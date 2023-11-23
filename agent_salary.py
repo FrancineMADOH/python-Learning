@@ -49,7 +49,6 @@ def remainder_utility(total_resident):
         if r1 != 0 :
             res2 = r1 / 10
             r2 = r1 * 0.1
-       # else: break
         
         if r2 != 0:
             res3 =  r2 / 5
