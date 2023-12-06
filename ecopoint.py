@@ -1,12 +1,20 @@
+services = [
+    {"service":"Voice", "code":"1", "points": 1000},
+    {"service":"Data",  "code":"2","points": 1500},
+    {"service":"Electricity", "code":"3", "points": 2000}
+]
+# Input 
+
+ecopoint = input("Enter the number of ecopoint: ")
+service =  input("Select a service. 1=Voice, 2=Data, 3=Electricity: ")
 
 class Ecopoint():
-    entry  = 1000
-    services = []
-    number_of_ecopoint = 0
-    services_to_reedem =  0
+    
+    entry  = 1000    
 
-    def __str__(self,entry):
-        self.entry = entry
+    def __str__(self,ecopoint,service):
+        self.services_to_reedem = ecopoint
+        self.number_of_ecopoint = service
         
     
     @classmethod
@@ -38,7 +46,7 @@ class Ecopoint():
                 return message
             
             elif int(point) >= self.entry:
-                for item in self.services:
+                for item in services:
                     code =  item['code'] 
                     base = item['points']
                     name = item["service"]

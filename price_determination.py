@@ -1,76 +1,60 @@
+trash_size_list = [
+        {"container":"Bucket","size":"10","code":"1","unit":"L"},
+        {"container":"Trash Bag","size":"27","code":"2","unit":"L"},
+        {"container":"Wheelbarrow","size":"80","code":"3","unit":"L"}
+    ]
+
+packages = [
+        {"name":"Pickup", "code": "1"},
+        {"name":"Cleaning", "code": "2"},
+        {"name":"Cleaning & Pickup", "code": "3"}
+]
+
+# inputs 
+trash_size_input = input("Select your trash size. 1=(bucket-10L), 2=(trash bag-27L), 3=(wheelbarrow-80L): ")
+trash_quantity  = input("Enter your trash quantity: ")
+trash_package = input("Choose package. 1=Pickup, 2=Cleanup, 3=Cleanup & Pickup: ")
+bid_amount = input("How much are you ready to pay for your service? : ")
+
 class PriceDetermination():
-    booking_list  = []
-    bonuses = {"bonus_of_twenty": 1000,"bonus_of_ten": 500, "bonus_of_five":200}
+    
+    bid_status = ("Approved", "Rejected")
 
-    def __init__(self, shift,pickup_type,agent,month):
-        self.shift = shift
-        self.pickup_type = pickup_type
-        self.agent = agent 
-        self.month = month
+    def __init__(self,trash_size_input,trash_quantity,trash_package,bid_amount):
+        self.trash_size_input = trash_size_input
+        self.trash_quantity = trash_quantity
+        self.trash_package = trash_package
+        self.bid_amount = bid_amount
 
-    def remainder_utility(self,total_resident):
-
-        try:
-            res1 =  total_resident / 20
-            r1 = res1 * 0.2
-
-            if r1 != 0 :
-                res2 = r1 / 10
-                r2 = r1 * 0.1
-            
-            if r2 != 0:
-                res3 =  r2 / 5
-                r3 =  r2 * 0.05
-
-            result = {"result1":res1,"result2":res2,"result3":res3,"r1":r1,"r2":r1,"r3":r3}
-
-            return  result
-        except:
-            return {"result1":0,"result2":0,"result3":0,"r1":0,"r2":0,"r3":0}
+    
+    def get_trash_price(self,code,quantity,package,bid):
         
-
-
-    def get_agent_salary(self,agent,month):
-        agent_monthly_pickup = []
-        commercials = []
-        residents = []
-
         try:
-            for booking in self.booking_list:
-                get_month = booking['pickup_date'].split('-')[1] 
+            for element in trash_size_list:
+                trash_code = element['code']
+                trash_size = element['size']
+                if trash_code == code:
+                    trash_volume = (int(trash_size)/1000) * int(quantity)
+
+            for item in packages:
+                package_choose = item['code']
+                if package == package_choose:
+                    price = trash_volume * 5000
+                    if package == "1": 
+                        trash_price =  price
+                    else:
+                        trash_price = 1.2 * price
             
-                if booking['agent'] == int(agent) and get_month == month:
-                    agent_monthly_pickup.append(booking)
+            if int(bid) < price:
+                status = self.bid_status[1]
+                print(f"{ status } : Price too low. Minimum:{ price }, Your price: { bid }")
+            elif int(bid) > price:
+                status = self.bid_status[0]
 
-            total_agent_shift = len(agent_monthly_pickup)
-
-            for item in agent_monthly_pickup:
-                if item['type'] == self.pickup_type[0]:
-                    residents.append(item)
-                else: 
-                    commercials.append(item)
-
-            result =  self.remainder_utility(len(residents))
-            
-            for key,value in self.bonuses.items():
-
-                if key == 'bonus_of_twenty':
-                    m1  = value * result['result1']
-
-                if key == 'bonus_of_ten':
-                    m2  = value * result['result2']
-                    
-                if key == 'bonus_of_five':
-                    m3  = value * result['result3']
-
-            total_bonus = (m1+m2+m3) + (result['r3'] * 50)
-
-            total_salary = (total_agent_shift * 500) +  total_bonus
-            
-            print( { "total_salary": total_salary })
-
-            return { "total_salary": total_salary }
+            print(trash_price,status)
+            return { "price":trash_price, "status": status, "bid_amount":bid }
         except:
+            print("Error! Please enter valid data")
             raise ValueError("Error! Please enter valid data")
-        
-        
+
+    get_trash_price(trash_size_input,trash_quantity,trash_package,bid_amount)
