@@ -11,3 +11,6 @@ The SOS repository is a flutter project for the sos app. By now it contains the 
 * Open the folder in your favorite code editor 
 * Run the project using the `flutter run ` command
 
+# Django project 
+
+Models building and GET requests of an  Objective setting app 
