@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="main container my-4">
+    <h1 class="text-primary text-center">{{ objective.objective_name }}</h1>
+    <div class="card my-3" >
+        <div class="card-body">
+            <div class="p-2">
+                <h6 class="fw-bold text-center text-primary"> Action Phrase</h6>
+                <p class="card-text px-3" > {{ objective.action_phrase }}</p>
+            </div>
+          <hr/>
+          <p class="card-text"> <span class="fw-bold" >Evaluator:</span>  {{ objective.evaluator }}
+            <span class="fw-bold mx-2">Objective Number: </span> {{objective.number}}
+           <span class="fw-bold mx-2"> Units: </span> {{objective.units}}
+           <span class="fw-bold mx-2">Priority: </span> {{objective.priority}}
+            <span class="fw-bold mx-2">Complexity: </span> {{objective.complexity}}
+            <span class="fw-bold mx-3">Created By:</span>{{ objective.created_by}}
+            </p>
+           
+          <p class="my-3 text-center" style=" justify-content:space-between;">
+                <span class="fw-bold m-5"> Start date:</span> {{ objective.start_date | date:"M d, Y" }} 
+                <span class="fw-bold m-5"> End date:</span>  {{ objective.end_date | date:"M d, Y" }}
+           </p>
+          {% comment %} <a href="{% url 'objectives' %}" class="btn btn-primary">Back to objective list</a> {% endcomment %}
+        </div>
+      </div>
+</div>
+
+
+
+{% endblock %}

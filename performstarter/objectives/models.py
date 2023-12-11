@@ -96,6 +96,8 @@ class TeamTool(models.Model):
         
     def __str__(self):
         return f"{self.team.name}"
+    
+
 
 
 class Objective(models.Model):

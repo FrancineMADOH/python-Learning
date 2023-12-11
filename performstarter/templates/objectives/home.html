@@ -1,6 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>This a a view</h2>
+<h2 class="text-center fw-bold my-4 text-primary">Objective List </h2>
+
+{% for objective in objectives %}
+<div class="card" style="">
+    <div class="card-body">
+      <h5 class="card-title text-primary">{{ objective.objective_name }}</h5>
+      <p class="card-text"> {{ objective.action_phrase }}</p>
+      <p  class="card-text text-muted">
+        Created By: {{ objective.created_by}}
+      </p>
+      <p>
+       <span class="fw-bold"> Start date: </span> {{ objective.start_date | date:"M d, Y" }} 
+       <span class="fw-bold"> End date: </span> {{ objective.end_date | date:"M d, Y" }} </p>
+      <a href="{% url 'objective-details' objective.objective_id %}" class="btn btn-primary">View Details</a>
+    </div>
+  </div>
+
+{% endfor %}
 
 {% endblock content  %}
+
