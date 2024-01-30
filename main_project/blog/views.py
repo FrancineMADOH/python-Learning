@@ -4,8 +4,8 @@ from rest_framework.views import  APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from .models import BlogPost
-from .serializers import BlogPostSerializer
+from .models import BlogPost, Todo
+from .serializers import BlogPostSerializer, TodoSerializer
 from rest_framework import viewsets
 
 # class BlogPostViewSet(viewsets.ModelViewSet):
@@ -111,3 +111,27 @@ class BlogPostDetailApiView(APIView):
         return Response( 
             {'message':'Blogpost deleted'}, status=status.HTTP_200_OK
         )
+
+class TodoApiListSerializer(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request,*args,**kwargs):
+        todos = Todo.objects.filter(user=request.user.id)
+        serializer = TodoSerializer(todos, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    # create todo 
+            # fields = ['task','timestamp','completed','updated','user']
+    def post(self,request,*args,**kwargs):
+        data = {
+            'task': request.data.get('task'),
+            'completed': request.data.get('completed'),
+            'user':request.user.id
+        }
+
+        serializer = TodoSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status= status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
